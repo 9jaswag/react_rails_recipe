@@ -10,6 +10,6 @@ Rails.application.routes.draw do
     end
   end
   root 'homepage#index'
-  get '/*path' => 'home#index'
+  get '/*path' => 'homepage#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
