@@ -5,6 +5,14 @@ class Recipe extends React.Component {
   constructor(props) {
     super(props);
     this.state = { recipe: { ingredients: "" } };
+
+    this.addHtmlEntities = this.addHtmlEntities.bind(this);
+  }
+
+  addHtmlEntities(str) {
+    return String(str)
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
   }
 
   componentDidMount() {
@@ -34,6 +42,8 @@ class Recipe extends React.Component {
         ));
     }
 
+    const recipeInstruction = this.addHtmlEntities(recipe.instruction);
+
     return (
       <div className="">
         <div className="hero position-relative d-flex align-items-center justify-content-center">
@@ -57,7 +67,11 @@ class Recipe extends React.Component {
             </div>
             <div className="col-sm-12 col-lg-7">
               <h5 className="mb-2">Preparation Instriction</h5>
-              <p>{recipe.instruction}</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `${recipeInstruction}`
+                }}
+              />
             </div>
             <div className="col-sm-12 col-lg-2">
               <button type="button" className="btn btn-danger">
@@ -66,7 +80,7 @@ class Recipe extends React.Component {
             </div>
           </div>
           <Link to="/recipes" className="btn btn-link">
-            Back
+            Back to recipes
           </Link>
         </div>
       </div>

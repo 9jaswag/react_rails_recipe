@@ -59,11 +59,16 @@ class Recipes extends React.Component {
         </section>
         <div className="py-5">
           <main className="container">
+            <div className="text-right mb-3">
+              <Link to="/recipe" className="btn custom-button">
+                Create New Recipe
+              </Link>
+            </div>
             <div className="row">
               {recipes.length > 0 ? allRecipes : noRecipe}
             </div>
             <Link to="/" className="btn btn-link">
-              Back
+              Home
             </Link>
           </main>
         </div>
