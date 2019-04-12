@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ErrorMessage from "./ErrorMessage";
 
 class Recipe extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { recipe: { ingredients: "" } };
+    this.state = { recipe: { ingredients: "" }, showError: false };
 
     this.addHtmlEntities = this.addHtmlEntities.bind(this);
     this.deleteRecipe = this.deleteRecipe.bind(this);
+    this.closeAlert = this.closeAlert.bind(this);
   }
 
   addHtmlEntities(str) {
@@ -35,6 +37,10 @@ class Recipe extends React.Component {
       .catch(() => this.props.history.push("/recipes"));
   }
 
+  closeAlert() {
+    this.setState({ showError: false });
+  }
+
   deleteRecipe() {
     const {
       match: {
@@ -59,7 +65,7 @@ class Recipe extends React.Component {
         throw new Error("Network response was not ok.");
       })
       .then(() => this.props.history.push("/recipes"))
-      .catch(error => console.log(error.message));
+      .catch(() => this.setState({ showError: true }));
   }
 
   render() {
@@ -100,6 +106,9 @@ class Recipe extends React.Component {
               </ul>
             </div>
             <div className="col-sm-12 col-lg-7">
+              {this.state.showError && (
+                <ErrorMessage onClick={this.closeAlert} />
+              )}
               <h5 className="mb-2">Preparation Instriction</h5>
               <div
                 dangerouslySetInnerHTML={{
