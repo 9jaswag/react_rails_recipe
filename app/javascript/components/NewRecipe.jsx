@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ErrorMessage from "./ErrorMessage";
 
 class NewRecipe extends React.Component {
   constructor(props) {
@@ -8,18 +7,12 @@ class NewRecipe extends React.Component {
     this.state = {
       name: "",
       ingredients: "",
-      instruction: "",
-      showError: false
+      instruction: ""
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
-    this.closeAlert = this.closeAlert.bind(this);
-  }
-
-  closeAlert() {
-    this.setState({ showError: false });
   }
 
   stripHtmlEntities(str) {
@@ -64,7 +57,7 @@ class NewRecipe extends React.Component {
         throw new Error("Network response was not ok.");
       })
       .then(response => this.props.history.push(`/recipe/${response.id}`))
-      .catch(() => this.setState({ showError: true }));
+      .catch(error => console.log(error.message));
   }
 
   render() {
@@ -72,7 +65,6 @@ class NewRecipe extends React.Component {
       <div className="container mt-5">
         <div className="row">
           <div className="col-sm-12 col-lg-6 offset-lg-3">
-            {this.state.showError && <ErrorMessage onClick={this.closeAlert} />}
             <h1 className="font-weight-normal mb-5">
               Add a new recipe to our awesome recipe collection.
             </h1>
